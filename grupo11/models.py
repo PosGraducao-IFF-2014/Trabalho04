@@ -16,6 +16,9 @@ class DB(list):
     def procurar(self, match):
         return filter(match, self)
 
+    def reset(self):
+        json.dump([], open(self.path, 'wr'))
+
 class ContaAReceber(dict):
 
     def salvar(self):
