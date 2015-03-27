@@ -1,0 +1,3 @@
+sqlite3 produto.db
+create table produto(codigo INTEGER PRIMARY KEY AUTOINCREMENT, descricao TEXT, preco TEXT, codigo_do_fornecedor TEXT);
+
