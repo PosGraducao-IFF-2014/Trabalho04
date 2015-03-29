@@ -28,3 +28,7 @@ class ContaAReceber(dict):
 
     def eh_valido(self):
         return True
+
+    @classmethod
+    def buscar_por_codigo(self, codigo):
+        return DB()[int(codigo)-1]
