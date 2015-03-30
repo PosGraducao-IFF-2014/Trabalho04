@@ -21,14 +21,14 @@ class ServerTest(unittest.TestCase):
     def setUp(self):
         DB().reset()
 
-    def nova_conta(self):
-        return {'codigoVenda': 1,
-                'dataVencimento': '05/06/2015',
-                'dataPagamento': '06/05/2015',
-                'status': 'PENDENTE'}
+    def nova_conta(self, **args):
+        return dict({'codigo_venda': 1,
+                'data_vencimento': '05/06/2015',
+                'data_pagamento': '06/05/2015',
+                'status': 'PENDENTE'}, **args)
 
     def conta_1(self):
-        return dict(self.nova_conta(), **{'codigo':1})
+        return dict(self.nova_conta(codigo=1))
 
     def post(self, path, data):
         return requests.post(self.url+path, data, headers=self.headers)
@@ -62,6 +62,12 @@ class ServerTest(unittest.TestCase):
         DB().adicionar(self.nova_conta())
         self.delete('contas_a_receber/1')
         self.assertEqual(DB().get('1'), None)
+
+    def test_lista_contas(self):
+        DB().adicionar(self.nova_conta(codigo_venda=10))
+        DB().adicionar(self.nova_conta(codigo_venda=15))
+        respostas = self.get('contas_a_receber').json()
+        self.assertEqual(map(lambda r: r['codigo_venda'], respostas), [10, 15])
 
 if __name__ == '__main__':
     unittest.main()

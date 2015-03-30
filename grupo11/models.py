@@ -29,7 +29,7 @@ class DB(dict):
         json.dump(self, open(self.path, 'w'))
 
     def _proximo_codigo(self):
-        return sorted(self)[-1]+1 if len(self) else 1
+        return int(sorted(self)[-1])+1 if len(self) else 1
 
 
 class ContaAReceber(dict):
@@ -50,3 +50,6 @@ class ContaAReceber(dict):
         resultado = DB().get(str(codigo))
         return resultado and cls(resultado)
 
+    @classmethod
+    def todas(cls):
+        return map(lambda r: cls(r), DB().values())
