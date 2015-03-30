@@ -36,6 +36,9 @@ class ServerTest(unittest.TestCase):
     def get(self, path):
         return requests.get(self.url+path)
 
+    def delete(self, path):
+        return requests.delete(self.url+path)
+
     def test_cadastra_conta(self):
         conta = json.dumps(self.nova_conta())
         resposta = self.post('contas_a_receber', conta)
@@ -55,10 +58,10 @@ class ServerTest(unittest.TestCase):
             self.get('contas_a_receber/200').status_code, 404
         )
 
-    #def test_remove_conta(self):
-        #DB().adicionar(self.conta_a_receber())
-        #DB().adicionar(self.conta_a_receber())
-        #self.delete('contas_a_receber/1')
+    def test_remove_conta(self):
+        DB().adicionar(self.nova_conta())
+        self.delete('contas_a_receber/1')
+        self.assertEqual(DB().get('1'), None)
 
 if __name__ == '__main__':
     unittest.main()
