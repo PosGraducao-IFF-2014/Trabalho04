@@ -10,10 +10,7 @@ def cria_conta_a_receber():
 
 @get('/contas_a_receber/<codigo_conta>')
 def retorna_conta_a_receber(codigo_conta):
-    response.content_type = 'application/json'
-    try:
-        return json.dumps(ContaAReceber.buscar_por_codigo(codigo_conta))
-    except IndexError:
-        return HTTPError(status=404)
+    conta_a_receber = ContaAReceber.buscar_por_codigo(codigo_conta)
+    return conta_a_receber or HTTPError(status=404)
 
 run(host='localhost', port=8011, debug=True)

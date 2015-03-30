@@ -1,23 +1,27 @@
 # -*- coding: utf-8 -*-
 import os, json
 
-class DB(list):
-    path = os.path.abspath(os.path.dirname(__file__)) + '/DB'
+class DB(dict):
+    path = os.path.abspath(os.path.dirname(__file__)) + '/DB.json'
 
     def __init__(self, *args, **kwargs):
         super(DB, self).__init__(*args, **kwargs)
-        self.extend(json.load(open(self.path, 'rb')))
+        self.update(json.load(open(self.path, 'r')))
 
     def adicionar(self, item):
-        self.append(item)
-        json.dump(self, open(self.path, 'wb'))
-        return self
+        item['codigo'] = self._proximo_codigo()
+        self[item['codigo']] = item
+        json.dump(self, open(self.path, 'w'))
 
     def procurar(self, match):
         return filter(match, self)
 
     def reset(self):
-        json.dump([], open(self.path, 'wr'))
+        json.dump({}, open(self.path, 'w'))
+
+    def _proximo_codigo(self):
+        return sorted(self)[-1]+1 if len(self) else 1
+
 
 class ContaAReceber(dict):
 
@@ -31,4 +35,4 @@ class ContaAReceber(dict):
 
     @classmethod
     def buscar_por_codigo(self, codigo):
-        return DB()[int(codigo)-1]
+        return DB().get(str(codigo))
