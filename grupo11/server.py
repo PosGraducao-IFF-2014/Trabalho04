@@ -8,13 +8,12 @@ import ipdb
 def cria_conta_a_receber():
     ContaAReceber(request.json).salvar()
 
-@get('/contas_a_receber/<codigo_conta>')
-def retorna_conta_a_receber(codigo_conta):
-    conta_a_receber = ContaAReceber.buscar_por_codigo(codigo_conta)
-    return conta_a_receber or HTTPError(status=404)
+@get('/contas_a_receber/<codigo>')
+def retorna_conta_a_receber(codigo):
+    return ContaAReceber.buscar(codigo) or HTTPError(status=404)
 
-@delete('/contas_a_receber/<codigo_conta>')
-def retorna_conta_a_receber(codigo_conta):
-    ContaAReceber.buscar_por_codigo(codigo_conta).remover()
+@delete('/contas_a_receber/<codigo>')
+def retorna_conta_a_receber(codigo):
+    ContaAReceber.buscar(codigo).remover()
 
 run(host='localhost', port=8011, debug=True)

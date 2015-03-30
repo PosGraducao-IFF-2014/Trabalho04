@@ -46,7 +46,7 @@ class ContaAReceber(dict):
         DB().remover(str(self['codigo']))
 
     @classmethod
-    def buscar_por_codigo(cls, codigo):
+    def buscar(cls, codigo):
         resultado = DB().get(str(codigo))
         return resultado and cls(resultado)
 
