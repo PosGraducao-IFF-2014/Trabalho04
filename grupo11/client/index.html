@@ -17,6 +17,7 @@
           <th>Data de Vencimento</th>
           <th>Data de Pagamento</th>
           <th>Status</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody id="content">
@@ -47,17 +48,22 @@
     </form>
 
     <script type='text/template' class='thetemplate'>
-<div class='todo-content'>
-  <% _.each(rc, function(conta) { %>
-    <tr>
-      <td><%- conta.codigo  %></td>
-      <td><%- conta.codigoVenda  %></td>
-      <td><%- conta.dataVencimento  %></td>
-      <td><%- conta.dataPagamento  %></td>
-      <td><%- conta.status  %></td>
-    </tr>
-  <% }); %>
-</div>
+      <div class='todo-content'>
+        <% _.each(rc, function(conta) { %>
+          <tr>
+            <td><%- conta.codigo  %></td>
+            <td><%- conta.codigoVenda  %></td>
+            <td><%- conta.dataVencimento  %></td>
+            <td><%- conta.dataPagamento  %></td>
+            <td><%- conta.status  %></td>
+            <td>
+              <button id=<%- conta.codigo%> onclick='removerConta(this)'>
+                Remover
+              </button>
+            </td>
+          </tr>
+        <% }); %>
+      </div>
     </script>
 
     <script src='static/jquery.js'></script>
@@ -80,6 +86,16 @@
           $("form")[0].reset()
         });
       };
+
+      var removerConta = function(e) {
+        $.ajax({
+            url: '/contas_a_receber/'+e.id,
+            type: 'DELETE',
+            success: function(result) {
+              renderIndex()
+            }
+        });
+      }
 
       $(document).ready(function() {
         renderIndex()
