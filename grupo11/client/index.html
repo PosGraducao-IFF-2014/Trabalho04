@@ -3,6 +3,7 @@
   <head>
     <title>Contas à Pagar</title>
     <meta charset='utf-8'/>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
   </head>
   <body>
     <h2>
@@ -22,6 +23,29 @@
       </tbody>
     <table>
 
+    <br />
+    <form id='conta-form' enctype='application/json' action="/contas_a_receber" method="post">
+      <div>
+        <label for='codigoVenda'>Código da Venda</label>
+        <input type="text" name="codigoVenda" />
+      </div>
+      <div>
+        <label for='dataVencimento'>Data de Vencimento</label>
+        <input type="date" name="dataVencimento" />
+      </div>
+      <div>
+        <label for='dataPagamento'>Código do Pagamento</label>
+        <input type="text" name="dataPagamento" />
+      </div>
+      <div>
+        <label for='status'>STATUS</label>
+        <input type="text" name="status" />
+      </div>
+      <div class="button">
+        <button type="submit">Salvar</button>
+      </div>
+    </form>
+
     <script type='text/template' class='thetemplate'>
 <div class='todo-content'>
   <% _.each(rc, function(conta) { %>
@@ -38,6 +62,7 @@
 
     <script src='static/jquery.js'></script>
     <script src='static/underscore.js'></script>
+    <script src='static/json-formdata.js'></script>
 
     <script type='text/javascript'>
       _.templateSettings.variable = "rc";
@@ -52,12 +77,25 @@
           $("#content").html(
             template(data)
           );
+          $("form")[0].reset()
         });
       };
 
       $(document).ready(function() {
         renderIndex()
       });
+
+      var form = document.querySelector('form');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/contas_a_receber');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(new JSONFormData(form).formData));
+        xhr.addEventListener('loadend', function() {
+          renderIndex()
+        }, false);
+      }, false);
     </script>
   </body>
 </html>
