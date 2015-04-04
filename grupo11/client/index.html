@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contas à Pagar</title>
+    <meta charset='utf-8'/>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+  </head>
+  <body>
+    <h2>
+      Contas à Receber
+    </h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Código da Venda</th>
+          <th>Data de Vencimento</th>
+          <th>Data de Pagamento</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="content">
+      </tbody>
+    <table>
+
+    <br />
+    <form id='conta-form' enctype='application/json' action="/contas_a_receber" method="post">
+      <div>
+        <label for='codigoVenda'>Código da Venda</label>
+        <input type="text" name="codigoVenda" />
+      </div>
+      <div>
+        <label for='dataVencimento'>Data de Vencimento</label>
+        <input type="date" name="dataVencimento" />
+      </div>
+      <div>
+        <label for='dataPagamento'>Data de Pagamento</label>
+        <input type="date" name="dataPagamento" />
+      </div>
+      <div>
+        <label for='status'>Situação</label>
+        <input type="text" name="status" />
+      </div>
+      <div class="button">
+        <button type="submit">Salvar</button>
+      </div>
+    </form>
+
+    <script type='text/template' class='thetemplate'>
+      <div class='todo-content'>
+        <% _.each(rc, function(conta) { %>
+          <tr>
+            <td><%- conta.codigo  %></td>
+            <td><%- conta.codigoVenda  %></td>
+            <td><%- conta.dataVencimento  %></td>
+            <td><%- conta.dataPagamento  %></td>
+            <td><%- conta.status  %></td>
+            <td>
+              <button id=<%- conta.codigo%> onclick='removerConta(this)'>
+                Remover
+              </button>
+            </td>
+          </tr>
+        <% }); %>
+      </div>
+    </script>
+
+    <script src='static/jquery.js'></script>
+    <script src='static/underscore.js'></script>
+    <script src='static/json-formdata.js'></script>
+
+    <script type='text/javascript'>
+      _.templateSettings.variable = "rc";
+      var template = _.template(
+        $(".thetemplate").html()
+      );
+
+      var renderIndex = function() {
+        $.ajax({
+          url: "http://localhost:8011/contas_a_receber"
+        }).then(function(data) {
+          $("#content").html(
+            template(data)
+          );
+          $("form")[0].reset()
+        });
+      };
+
+      var removerConta = function(e) {
+        $.ajax({
+            url: '/contas_a_receber/'+e.id,
+            type: 'DELETE',
+            success: function(result) {
+              renderIndex()
+            }
+        });
+      }
+
+      $(document).ready(function() {
+        renderIndex()
+      });
+
+      var form = document.querySelector('form');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/contas_a_receber');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(new JSONFormData(form).formData));
+        xhr.addEventListener('loadend', function() {
+          renderIndex()
+        }, false);
+      }, false);
+    </script>
+  </body>
+</html>
