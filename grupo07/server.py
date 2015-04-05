@@ -13,6 +13,7 @@ else:
 return True
 run(reloader=True, host='localhost', port=8007,debug=True)
 
+@post('/cadastraCompra')
 def compras(db):
     codigoCompra = request.forms.get('codigoCompra')
     codigoProduto = request.forms.get('codigoProduto')
@@ -23,3 +24,15 @@ def compras(db):
     #c = db.execute('INSERT INTO compras (codigoCompra, codigoProduto, codigoFornecedor, data, quantidade, valortotal) VALUES (codigoCompra,codigoProduto,codigoFornecedor,\'data'\,quantidade,valortotal)')
     db.execute("INSERT INTO compras (codigoCompra, codigoProduto, codigoFornecedor, data, quantidade, valortotal) values ('%s' ,'%s', '%s', '%s', '%s', '%s')"%(codigoCompra, codigoProduto, codigoFornecedor, data, quantidade, valortotal)) 
     print('Compra cadastradacom sucesso!')
+
+@get('/consulta/<post_id:int>')
+def compras(db,post_id):
+    response.content_type = 'application/json'
+    c = db.execute('SELECT compras, codigoCompra FROM compra WHERE id = ?', (post_id,))
+    row = c.fetchone()
+    return {'codigoProduto', 'codigoFornecedor', 'data', 'quantidade', 'valortotal'}
+    
+@post('/deletar/<post_id:int>') 
+def compras(db,post_id): 
+    c = db.execute('DELETE FROM compras WHERE id = ?', (post_id,)) 
+    return True
