@@ -24,4 +24,7 @@ def venda(db,post_id):
     v = db.execute('SELECT venda, codigo_venda FROM venda WHERE id = ?', (post_id,))
     row = v.fetchone()
     return {'codigo_venda', 'codigo_funcionario'}
+
+
+
 run(reloader=True, host='localhost', port=8009, debug=True)
