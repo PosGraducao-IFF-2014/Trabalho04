@@ -50,4 +50,4 @@ def consulta_submit(db):
   except Exception, e:
     return '''<p>Produto nao encontrado</p>'''
 
-run(reloader=True, host='localhost', port=8017, debug=True)
+run(reloader=True, host='localhost', port=8009, debug=True)
