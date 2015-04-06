@@ -8,4 +8,3 @@ create table venda (
     codigo_produto text,
     quantidade text
 );
-
