@@ -1,10 +1,7 @@
 from bottle import route, install, template, run, get, post, response, request
 from bottle_sqlite import SQLitePlugin
-from flask_table import Table, Col
+
 install(SQLitePlugin(dbfile='venda.sqlite'))
-
-
-
 
 @post('/cadastra')
 def venda_cadastro(db):
@@ -21,33 +18,10 @@ def venda_cadastro(db):
   except Exception, e:
     return e
 
-@get('/consultaVenda')
-def consulta_form():
-    return '''  <h1>Consulta de Produto</h1></p>
-                <form method="POST" action="/consultar">
-                Codigo : <input name="codigo"     type="text" /></p>
-                <input type="submit" />
-              </form>
-                '''
-
-@post('/consultar')
-def consulta_submit(db):
-  consulta_html ='''  <h1>Produto Consultado</h1></p>
-                <form >
-                    Codigo : {{codigo}}</p>
-                    Descricao : {{descricao}}</p>
-                    Preco : {{preco}}</p>
-                    Codigo Fabricante : {{codigoFabricante}}</p>
-                    <a href="/consultaProduto">Voltar</a></p>
-                    <a href="/cadastraProduto">Cadastrar Novo Produto</a>
-                </form>
-                '''
-  codigo     = request.forms.get('codigo_venda')
-  try:
-    c = db.execute('SELECT codigo_venda FROM venda WHERE codigo_venda = ?', (codigo_venda,))
-    row = c.fetchone()
-    return template(consulta_html, codigo_venda=row['codigo'], codigo_funcionario=row['descricao'])
-  except Exception, e:
-    return '''<p>Produto nao encontrado</p>'''
-
+@get('/consulta/<post_id:int>')
+def venda(db,post_id):
+    response.content_type = 'application/json'
+    v = db.execute('SELECT venda, codigo_venda FROM venda WHERE id = ?', (post_id,))
+    row = v.fetchone()
+    return {'codigo_venda', 'codigo_funcionario'}
 run(reloader=True, host='localhost', port=8009, debug=True)
