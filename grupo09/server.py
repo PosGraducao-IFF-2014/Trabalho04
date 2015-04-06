@@ -18,6 +18,13 @@ def venda_cadastro(db):
   except Exception, e:
     return e
 
+@get('/consulta/<post_id:int>')
+def venda(db,post_id):
+    response.content_type = 'application/json'
+    v = db.execute('SELECT venda, codigo_venda FROM venda WHERE id = ?', (post_id))
+    row = v.fetchone()
+    return {'codigo_venda', 'codigo_funcionario'}
+
 
 
 run(reloader=True, host='localhost', port=8009, debug=True)
