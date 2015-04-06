@@ -4,8 +4,6 @@ from flask_table import Table, Col
 install(SQLitePlugin(dbfile='venda.sqlite'))
 
 
-
-
 @post('/cadastra')
 def venda_cadastro(db):
   codigo_venda = request.forms.get('codigo_venda')
