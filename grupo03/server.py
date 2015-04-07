@@ -90,12 +90,17 @@ def deletar_form():
 def deletar_submit(db):
     codigo     = request.forms.get('codigo')
     try:
-        db.execute('DELETE FROM produtos WHERE codigo = ?', (codigo,))
-        return '''<p>Produto Deletado com Sucesso</p>
-                    <a href="/consultaProduto">Consultar Produto</a></p>
-                    <a href="/cadastraProduto">Cadastrar Novo Produto</a></p>
-                    <a href="/deletarProduto">Deletar Produto</a>
-                    '''
+
+        if produto_pertence_estoque(codigo):
+            db.execute('DELETE FROM produtos WHERE codigo = ?', (codigo,))
+            return '''<p>Produto Deletado com Sucesso</p>
+                        <a href="/consultaProduto">Consultar Produto</a></p>
+                        <a href="/cadastraProduto">Cadastrar Novo Produto</a></p>
+                        <a href="/deletarProduto">Deletar Produto</a>
+                        '''
+        else:
+            return '''<p>N&atilde;o foi poss&iacute;vel excluir o produto.</p>'''
+
     except Exception, e:
         return "<p>Erro ao deletar Produto</p>"
 
@@ -114,6 +119,9 @@ def listar_produtos(db):
     except Exception, e:
         return "<p>Erro ao listar Produto</p>"
 
+def produto_pertence_estoque(codigo_produto):
+    resposta = request.get('localhost:8004/consulta_estoque_em_produto_estoque/'+codigo_produto)
+    return resposta == 1
 
 
 class ItemTable(Table):
