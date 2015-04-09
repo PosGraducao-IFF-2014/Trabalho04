@@ -19,5 +19,18 @@
 		
 		<input type="submit" value="Enviar">		
 	</form>
+	
+	<h1>consultarAPagar</h1>
+	<p>Digite o "codigoApagar" da conta.</p>
+	<label for="codigoApagar_ID">codigoApagar</label>
+	<input type="text" name="codigoApagar_ID" id="codigoApagar_ID" value=""><br>
+	<input type="submit" value="Enviar" onclick="window.open('http://localhost:8010/consultarAPagar/'+document.getElementById('codigoApagar_ID').value); return false;">
+	
+	<h1>deletarApagar</h1>
+	<p>Digite o "codigoApagar" da conta.</p>
+	<label for="codigoApagar_ID_Delete">codigoApagar</label>
+	<input type="text" name="codigoApagar_ID_Delete" id="codigoApagar_ID_Delete" value=""><br>
+	<input type="submit" value="Enviar" onclick="window.open('http://localhost:8010/deletarApagar/'+document.getElementById('codigoApagar_ID_Delete').value); return false;">
+	
   </body>
 </html>
