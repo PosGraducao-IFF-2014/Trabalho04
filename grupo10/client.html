@@ -1,9 +1,23 @@
 <html>
   <head>
-		<title>Cliente do Grupo 10</title>
-	</head>
-
-	<body>
-
-	</body>
+  	<title>Cliente do Grupo 10</title>
+  </head>
+  <body>
+	<h1>CadastrarContaApagar</h1>
+	<p>Preencha o formulário abaixo para cadastrar uma conta a pagar.</p>
+	<form action="http://localhost:8010/cadastrarContaApagar" method="post">
+		<label for="codigoApagar">codigoApagar</label>
+		<input type="text" name="codigoApagar" id="codigoApagar" value=""><br>
+		<label for="codigoCompra">codigoCompra</label>
+		<input type="text" name="codigoCompra" id="codigoCompra" value=""><br>
+		<label for="dataVencimento">dataVencimento</label>
+		<input type="text" name="dataVencimento" id="dataVencimento" value=""><br>
+		<label for="dataPagamento">dataPagamento</label>
+		<input type="text" name="dataPagamento" id="dataPagamento" value=""><br>
+		<label for="status">status</label>
+		<input type="text" name="status" id="status" value=""><br>
+		
+		<input type="submit" value="Enviar">		
+	</form>
+  </body>
 </html>
