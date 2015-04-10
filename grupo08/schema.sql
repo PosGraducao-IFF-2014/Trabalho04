@@ -4,5 +4,5 @@ create table funcionario (
     nome_funcionario text,
     endereco_funcionario text,
     sexo_funcionario text,
-    datanascimento_funcionario date,
+    datanascimento_funcionario date 
 );

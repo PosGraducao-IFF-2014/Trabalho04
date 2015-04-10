@@ -31,12 +31,12 @@ def funcionario_cadastro(db):
 
 @get('/consulta_funcionario')
 def html_():
-    return 
-    '''<h3>Consulta de Funcionario</h3></p>
-    #<form method="POST" action="/consulta">
-      #Codigo : <input name="codigo_funcionario"     type="text" /></p>
-      #<input type="submit" />
-    #</form>'''
+    return '''
+    <h3>Consulta de Funcionario</h3></p>
+    <form method="POST" action="/consulta">
+      Codigo : <input name="codigo_funcionario"     type="text" /></p>
+      <input type="submit" />
+    </form>'''
 
 @post('/consulta')
 def funcionario_consulta(db):
@@ -60,11 +60,11 @@ def funcionario_consulta(db):
 @get('/deleta_funcionario')
 def html_():
     return '''  
-      #<h1>Exclusao de Funcionario</h1></p>
-      #<form method="POST" action="/deleta">
-          #Codigo funcionario : <input name="codigo_funcionario"     type="text" /></p>
-          #<input type="submit" />
-      #</form>'''
+      <h1>Exclusao de Funcionario</h1></p>
+      <form method="POST" action="/deleta">
+        Codigo funcionario : <input name="codigo_funcionario" type="text" /></p>
+        <input type="submit" />
+      </form>'''
 
 @post('/deleta')
 def venda_deleta(db):
@@ -77,30 +77,19 @@ def venda_deleta(db):
         return 'Nao foi possivel excluir o funcionario .'
 
     except Exception, e:
-        return 'funcionario nao encontrado!' 
+        return "Nao encontrado" 
 
 #------------------------------------------------
 @route('/existe/<post_id:int>')
 def existe(db, post_id):
   response.content_type = 'application/json'
-  v = db.execute('SELECT codigo_funcionarioFROM funcionario  WHERE codigo_funcionario = ?', (post_id,))
+  v = db.execute('SELECT codigo_funcionario FROM funcionario  WHERE codigo_funcionario = ?', (post_id,))
   row = v.fetchone()
   if row==None:
     return 'Nao foram encontrados funcionarios com esse codigo'
   else:
     return {'codigo_funcionario':row['codigo_funcionario']}
 
-
-#-------Metodo para o nosso grupo feito pelo grupo 9------------------------------
-@get('/existe_venda_por_funcionario/<post_id:int>')
-def existe(db, post_id):
-  response.content_type = 'application/json'
-  v = db.execute('SELECT codigo_funcionario FROM venda  WHERE codigo_funcionario = ?', (post_id))
-  row = v.fetchone()
-  if row==None:
-    return False
-  else:
-    return True
 
 #----------------------------------------------------------------------------------
 run(reloader=True, host='localhost', port=8008, debug=True)
